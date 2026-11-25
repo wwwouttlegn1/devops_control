@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gateway-nginx-config
+data:
+  default.conf: |
+    server {
+      listen 80;
+      server_name _;
+
+      location /api/pharmacy/ {
+        rewrite ^/api/pharmacy/(.*)$ /$1 break;
+        proxy_pass http://pharmacy-api:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+      }
+
+      location /api/delivery/ {
+        rewrite ^/api/delivery/(.*)$ /delivery/$1 break;
+        proxy_pass http://delivery-service:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+      }
+
+      location / {
+        proxy_pass http://pharmacy-frontend:80;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+      }
+    }
+

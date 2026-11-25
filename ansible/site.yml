@@ -1,0 +1,83 @@
+---
+- name: Configure pharmacy web server
+  hosts: web
+  become: true
+  gather_facts: true
+  tasks:
+    - name: Install nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Render pharmacy page
+      ansible.builtin.template:
+        src: templates/index.html.j2
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Ensure nginx is enabled and running
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Check the pharmacy web page
+      ansible.builtin.uri:
+        url: http://127.0.0.1/
+        status_code: 200
+        return_content: true
+      register: pharmacy_page
+      changed_when: false
+
+    - name: Verify the page content
+      ansible.builtin.assert:
+        that:
+          - "'Дәріхана' in pharmacy_page.content"
+        fail_msg: Дәріхана сөзі index.html бетінен табылмады
+        success_msg: Nginx беті дұрыс жауап берді
+
+- name: Configure pharmacy storage
+  hosts: storage
+  become: true
+  gather_facts: true
+  tasks:
+    - name: Create pharmacy directory
+      ansible.builtin.file:
+        path: /opt/pharmacy
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Create pharmacy files
+      ansible.builtin.copy:
+        dest: "/opt/pharmacy/{{ item }}"
+        content: "{{ item }}\n"
+        owner: root
+        group: root
+        mode: "0644"
+      loop:
+        - orders.txt
+        - stock.txt
+        - clients.txt
+
+    - name: Find pharmacy text files
+      ansible.builtin.find:
+        paths: /opt/pharmacy
+        patterns: "*.txt"
+        file_type: file
+        recurse: false
+      register: pharmacy_files
+      changed_when: false
+
+    - name: Verify exactly three files exist
+      ansible.builtin.assert:
+        that:
+          - pharmacy_files.matched == 3
+        fail_msg: "/opt/pharmacy ішінде 3 файлдың орнына {{ pharmacy_files.matched }} файл табылды"
+        success_msg: /opt/pharmacy ішінде дәл 3 файл бар
+

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Дәріхана — 5-нұсқа</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #eef7f3; color: #18342c; }
+    main { width: min(720px, calc(100% - 2rem)); margin: 12vh auto; padding: 2rem; box-sizing: border-box; background: white; border-radius: 16px; box-shadow: 0 12px 36px rgba(0, 70, 50, .12); }
+    h1 { color: #087f5b; }
+    code { overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Дәріхана — 5-нұсқа</h1>
+    <p>Хост атауы: <strong>{{ ansible_hostname }}</strong></p>
+    <p>IP-мекенжайы: <code>{{ ansible_default_ipv4.address }}</code></p>
+  </main>
+</body>
+</html>
+
