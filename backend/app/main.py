@@ -35,21 +35,33 @@ def create_app(
 
 def _seed_demo_data(service: PharmacyService) -> None:
     service.add_medicine(
-        name="Парацетамол",
-        price=Decimal("350.00"),
+        name="Парацетамол 500 мг №10",
+        price=Decimal("270.00"),
         quantity=24,
         prescription=False,
     )
     service.add_medicine(
-        name="Амоксициллин",
-        price=Decimal("1450.00"),
+        name="Амоксициллин 500 мг №20",
+        price=Decimal("1260.00"),
         quantity=8,
         prescription=True,
     )
     service.add_medicine(
-        name="Дәрумен C",
-        price=Decimal("890.00"),
-        quantity=0,
+        name="Аскорбин қышқылы №200",
+        price=Decimal("399.00"),
+        quantity=30,
+        prescription=False,
+    )
+    service.add_medicine(
+        name="Ибупрофен-АКОС 200 мг №20",
+        price=Decimal("459.00"),
+        quantity=18,
+        prescription=False,
+    )
+    service.add_medicine(
+        name="Лоратадин 10 мг №10",
+        price=Decimal("650.00"),
+        quantity=12,
         prescription=False,
     )
 

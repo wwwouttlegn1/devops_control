@@ -14,7 +14,14 @@ def estimate_delivery(
 ) -> dict[str, str | int]:
     normalized = district.strip().lower()
     one_day = {"орталық", "центр", "center"}
-    two_days = {"алматы", "есіл", "байқоңыр", "нұра", "сарыарқа"}
+    two_days = {
+        "алматы",
+        "байқоңыр",
+        "есіл",
+        "нұра",
+        "сарайшық",
+        "сарыарқа",
+    }
     if normalized in one_day:
         days = 1
     elif normalized in two_days:

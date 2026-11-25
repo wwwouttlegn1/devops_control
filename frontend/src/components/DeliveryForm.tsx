@@ -77,6 +77,9 @@ export function DeliveryForm() {
           required
           className="min-h-12 w-full rounded-xl border border-white/20 bg-white px-4 text-base text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-emerald-300 focus:ring-4 focus:ring-emerald-300/25"
         />
+        <p className="text-sm leading-5 text-emerald-100">
+          Алматы, Байқоңыр, Есіл, Нұра, Сарайшық немесе Сарыарқа.
+        </p>
         <button
           type="submit"
           disabled={loading}
